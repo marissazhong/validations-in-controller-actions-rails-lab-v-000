@@ -8,18 +8,19 @@ class PostsController < ApplicationController
   end
 
   def update
-    @post = Post.find(post_params)
-
+    set_post!
+    @post.category = post_params(:category)
+    @post.content = post_params(:content)
+    @post.title = post_params(:title)
     if @post.valid?
-      @post.update(post_params)
-
-    redirect_to post_path(@post)
+      @post.save
+      redirect_to post_path(@post)
   end
 
   private
 
-  def post_params
-    params.permit(:category, :content, :title)
+  def post_params(*args)
+    params.permit(*args)
   end
 
   def set_post!
