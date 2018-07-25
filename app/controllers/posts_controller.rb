@@ -8,10 +8,7 @@ class PostsController < ApplicationController
   end
 
   def update
-    @post.category = post_params(:category)
-    @post.content = post_params(:content)
-    @post.title = post_params(:title)
-    if @post.valid?
+    if @post.update(post_params)
       @post.save
       redirect_to post_path(@post)
     else
@@ -21,8 +18,8 @@ class PostsController < ApplicationController
 
   private
 
-  def post_params(*args)
-    params.permit(*args)
+  def post_params
+    params.permit(:category, :content, :title)
   end
 
   def set_post!
